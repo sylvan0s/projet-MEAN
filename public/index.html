@@ -39,11 +39,15 @@
                 <form>
                   
                     <div class="form-group"> 
-                        <textarea type="text" class="form-control input-lg text-center" ng-model="formData.text"></textarea>
-                    </div>
+                    <label>Titre  </label>
+                    <input type="text" class="form-control input-lg text-center" ng-model="article.title">
+                    <label> Contenu de votre article  </label>
+                    <textarea type="text" class="form-control input-lg text-center" ng-model="article.content"></textarea>
 
                     <button type="submit" class="btn btn-primary btn-lg" ng-click="createArticle()">Ajouter</button>
                 </form>
+
+                
             </div>
         </div>
 
