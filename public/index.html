@@ -18,11 +18,19 @@
 	<body>
 		<h1>It works !</h1>
 
-		<div>
-			<label>Nom : </label>
-			<input type="text" ng-model="yourName" placeholder="Entrez votre nom"><br>
+		<input type="text" ng-model="query">
+		<select ng-model="order">
+			<option value="username">Trier par username</option>
+			<option value="content">Trier par content</option>
+		</select>
 
-			<p>Coucou {{yourName}} !</p>
+		<div ng-init="users=[{username: 'Marc', content: 'Coucou les amis'}, {username: 'Jean', content: 'Je ne suis pas inspiré'}, {username: 'John', content: 'First!'}]">
+				<div ng-repeat="user in users | filter: {content: query} | orderBy: order">
+					<p>
+						<strong>{{user.username}}</strong><br>
+						{{user.content}}
+					</p>
+				</div>
 		</div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
