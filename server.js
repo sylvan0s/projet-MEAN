@@ -9,7 +9,7 @@
     // configuration =================
    
 
-    mongoose.connect('mongodb://node:nodeuser@localhost/blog');     
+    mongoose.connect('mongodb://localhost/blog');     
 
 
     app.use(express.static(__dirname + '/public'));                 
@@ -36,8 +36,8 @@
         next();  
     });
     // 
-    app.get('/', function(req, res) {
-        res.json({ message: 'hooray! welcome to our api!' });   
+    app.get('*', function(req, res) {
+        res.sendfile('./public/index.html') 
     });
 
     app.get('/api/articles', function(req, res) {
