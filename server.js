@@ -1,4 +1,4 @@
-    // les modules========================
+   // les modules========================
     var express  = require('express');
     var app      = express();                               
     var mongoose = require('mongoose');                               
@@ -18,106 +18,67 @@
     app.use(bodyParser.json({ type: 'application/vnd.api+json' })); 
     app.use(methodOverride());
     
-    // routes ======================================================================
-    var router = express.Router();              
+    // Définition des routes ======================================================================
+    app.get('/api/articles', function(req, res) {
 
-    router.use(function(req, res, next) {
-    // console 
-    console.log('hi ça marche là!');
-    next(); 
-    });
-
-    // test de la route racine 
-    router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
-    });
-
-    // route pour les articles
-    router.route('/articles')
-
-    // creation d'articles
-    .post(function(req, res) {
-        
-        var article = new Article();      
-        article.name = req.body.name;  // set the bears name (comes from the request)
-
-        // save the bear and check for errors
-        article.save(function(err) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'vous avez fait un article!' });
-        });
-        
-    })
-
-    // obtenir tous les articles  
-    .get(function(req, res) {
+        // use mongoose to get all todos in the database
         Article.find(function(err, articles) {
-            if (err)
-                res.send(err);
 
-            res.json(articles);
+            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+            if (err)
+                res.send(err)
+
+            res.json(articles); // return all todos in JSON format
         });
     });
 
-// on routes that end in /article/:article_id
+    // create todo and send back all todos after creation
+    app.post('/api/articles', function(req, res) {
 
-    router.route('/articles/:article_id')
-
-    // get the bear with that id (accessed at GET http://localhost:8080/api/article/:article_id)
-    .get(function(req, res) {
-        Article.findById(req.params.article_id, function(err, article) {
-            if (err)
-                res.send(err);
-            res.json(article);
-        });
-    })
-
-    //mise à jour article/:article_id
-
-    .put(function(req, res) {
-
-        // use our bear model to find the bear we want
-        Article.findById(req.params.article_id, function(err, bear) {
-
+        // create a todo, information comes from AJAX request from Angular
+        Todo.create({
+            title : req.body.title,
+            content : req.body.content,
+            done : false
+        }, function(err, todo) {
             if (err)
                 res.send(err);
 
-            article.name = req.body.name;  //maj
-
-            // sauvegarde
-            article.save(function(err) {
+            // get and return all the todos after you create another
+            Article.find(function(err, articles) {
                 if (err)
-                    res.send(err);
-
-                res.json({ message: 'maj !' });
+                    res.send(err)
+                res.json(articles);
             });
-
         });
-    })
 
-        //suppression
-        .delete(function(req, res) {
-        Article.remove({
-            _id: req.params.article_id
-        }, function(err, bear) {
+    });
+
+    // delete a todo
+    app.delete('/api/articles/:article_id', function(req, res) {
+        Todo.remove({
+            _id : req.params.article_id
+        }, function(err, article) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'article supprimé !!' });
+            // get and return all the todos after you create another
+            Todo.find(function(err, article) {
+                if (err)
+                    res.send(err)
+                res.json(articles);
+            });
         });
     });
 
 
 
-    // enregistrement de la route======================================
-
-    app.use('/api', router);
+    // index ======================================
+   /* app.get('*', function(req, res) {
+        res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+    });*/
 
 
     // ouverture du port ======================================
     app.listen(8080);
     console.log("Je suis à l'écoute 8080");
-
-  

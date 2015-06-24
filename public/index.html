@@ -1,7 +1,5 @@
 <!-- index.html -->
 <!doctype html>
-
-
 <html ng-app="blog">
 <head>
 
@@ -10,28 +8,16 @@
 
     <title>Mon Blog</title>
 
-
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
-    <style>
-        html                    { overflow-y:scroll; }
-        body                    { padding-top:50px; }
-        #todo-list              { margin-bottom:30px; }
-    </style>
-
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap changer le lien -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery  télécharger les libs-->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script><!-- load angular  télécharger les libs-->
     <script src="core.js"></script>
-
 </head>
 
-<body ng-controller="mainController">
+<body ng-controller="ArticlesController">
     <div class="container">
 
      
-        <div class="jumbotron text-center">
-            <h1>Le nombre d'articles est de<span class="label label-info">{{ articles.length }}</span></h1>
-        </div>
 
    
         <div id="article-form" class="row">
@@ -40,9 +26,9 @@
                   
                     <div class="form-group"> 
                     <label>Titre  </label>
-                    <input type="text" class="form-control input-lg text-center" ng-model="article.title">
+                    <input type="text" class="form-control input-lg text-center" ng-model="title">
                     <label> Contenu de votre article  </label>
-                    <textarea type="text" class="form-control input-lg text-center" ng-model="article.content"></textarea>
+                    <textarea type="text" class="form-control input-lg text-center" ng-model="content"></textarea>
 
                     <button type="submit" class="btn btn-primary btn-lg" ng-click="createArticle()">Ajouter</button>
                 </form>

@@ -1,42 +1,19 @@
-var blog = angular.module('blog', []);
+var App = angular.module('blog',[]);
 
-function mainController($scope, $http) {
-    $scope.formData = {};
+App.controller('ArticlesController', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http){
 
-    
-    $http.get('/api/articles')
-        .success(function(data) {
-            $scope.articles = data;
+   $http.get('/api/articles').
+        success(function(data, status, headers, config) {
             console.log(data);
-        })
-        .error(function(data) {
-            console.log('Error: ' + data);
-        });
+            $scope.articles = data;
+            $scope.lastArticle = $scope.articles[$scope.articles.length - 1];
+              });
 
+   $http.post
+   ('/api/articles').
+        success(function(data, status, headers, config) {
+            $scope.articles = data;
+            $scope.lastArticle = $scope.articles[$scope.articles.length - 1];
+              });
    
-    $scope.createArticle = function() {
-        $http.post('/api/articles', $scope.formData)
-            .success(function(data) {
-            	console.log("création d'un article")
-                $scope.formData = {}; 
-               	console.log(data);
-                $scope.articles = data;
-                console.log(data);
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-    };
-
-    $scope.deleteArticle = function(id) {
-        $http.delete('/api/articles/' + id)
-            .success(function(data) {
-                $scope.articles = data;
-                console.log(data);
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-    };
-
-}
+}]);
