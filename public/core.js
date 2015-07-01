@@ -27,12 +27,19 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
 routerApp.controller('ArticlesController', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http){
 console.log("controller")
 console.log($scope)
+
+
+
+  $scope.getarticles = function () {
   $http.get('/api/articles').
-          success(function(data, status, headers, config) {
-            //console.log(data);
-            $scope.articles = data;
-            $scope.lastArticle = $scope.articles[$scope.articles.length - 1];
-              });
+    success(function(data, status, headers, config) {
+              //console.log(data);
+              $scope.articles = data;
+              $scope.lastArticle = $scope.articles[$scope.articles.length - 1];
+                });
+    };
+
+    $scope.getarticles();
 //création d'article 
   $scope.createArticle = function () {
 
@@ -47,15 +54,16 @@ console.log($scope)
     .always(function() {
       console.log("post ok");
     });
+     $scope.getarticles();
   };
-
+ 
 //article par id 
   $scope.getArticle = function() {
     $.get('/api/articles/:article_id').
       success(function(data) {  
       console.log(data);
       });
-    }
+    };
 
 
 
