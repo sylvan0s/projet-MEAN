@@ -23,11 +23,15 @@
                         <li><a href="#">Accueil</a></li>
                         <li><a href="#">Login</a></li>
                     </ul>
+                    <p class="navbar-text navbar-right">Made by J&M</p>
                 </div>
             </nav>
         </header>
 
         <div class="container">
+           
+            <div ng-repeat="article in articles">{{article.title}} {{article.content}}</div>
+           
             <div id="article-form" class="row">
                 <div class="col-sm-8 col-sm-offset-2 text-center">
                     <form>
