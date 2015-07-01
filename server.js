@@ -70,6 +70,14 @@
         });
     });
 
+    app.get('/api/articles/:article_id', function(req, res) {
+        Article.findById(req.params.article_id, function(err, article) {
+            if (err)
+                res.send(err);
+            res.json(article);
+        });
+    });
+
 
 
     // index ======================================

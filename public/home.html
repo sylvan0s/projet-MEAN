@@ -1,0 +1,18 @@
+ <div  ng-controller = "ArticlesController">
+ <div ng-repeat="article in articles">{{article.title}} {{article.content}} <a href="#" >lire la suite</a></div>
+           
+            <div id="article-form" class="row">
+                <div class="col-sm-8 col-sm-offset-2 text-center">
+                    <form>
+                        <div class="form-group"> 
+                            <label>Titre  </label>
+                            <input type="text" class="form-control input-lg text-center" ng-model="title">
+                            <label> Contenu de votre article  </label>
+                            <textarea type="text" class="form-control input-lg text-center" ng-model="content"></textarea>
+
+                            <button type="submit" class="btn btn-primary btn-lg" ng-click="createArticle()">Ajouter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+</div>
