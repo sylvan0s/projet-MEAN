@@ -3,7 +3,10 @@
     var app      = express();                               
     var mongoose = require('mongoose');                               
     var bodyParser = require('body-parser');    
-    var methodOverride = require('method-override'); 
+    var methodOverride = require('method-override');
+
+    var passport = require('passport');
+    var LocalStrategy = require('passport-local').Strategy;
 
 
     // onfiguration base de données mongodb=================
@@ -84,6 +87,27 @@
    /* app.get('*', function(req, res) {
         res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
     });*/
+
+    
+    // Initialisation de PassportJS
+    passport.use(new LocalStrategy (
+        function(username, password, done) {
+            User.findOne({ username: username }, function(err, user) {
+                if (err) return done(err);
+                if (!user) return done(null, false, { message: 'Username incorrect.' });
+                if (!user.validPassword(password)) return done(null, false, { message: 'Password incorrect.' });
+                
+                return done(null, user);
+            });
+        }
+    ));
+    app.post('/login',
+        passport.authenticate('local', { successRedirect: '/',
+                                        failureRedirect: '/login',
+                                        failureFlash: true })
+    );
+    app.use(passport.initialize());
+    app.use(passport.session());
 
 
     // ouverture du port ======================================
