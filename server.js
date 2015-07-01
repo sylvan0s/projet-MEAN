@@ -21,49 +21,48 @@
     // Définition des routes ======================================================================
     app.get('/api/articles', function(req, res) {
 
-        // use mongoose to get all todos in the database
+        // use mongoose Articleet all Articles in the database
         Article.find(function(err, articles) {
 
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
                 res.send(err)
 
-            res.json(articles); // return all todos in JSON format
+            res.json(articles); // return all Articles in JSON format
         });
     });
 
-    // create todo and send back all todos after creation
+    // create Article and send back all Articles after creation
     app.post('/api/articles', function(req, res) {
 
-        // create a todo, information comes from AJAX request from Angular
-        Todo.create({
-            title : req.body.title,
-            content : req.body.content,
-            done : false
-        }, function(err, todo) {
-            if (err)
-                res.send(err);
+        // create a Article, information comes from AJAX request from Angular
+        console.log(req.body.title);
+        console.log(req.body.content);
+        
+        var article = new Article();
 
-            // get and return all the todos after you create another
-            Article.find(function(err, articles) {
-                if (err)
-                    res.send(err)
-                res.json(articles);
-            });
-        });
+        article.title = req.body.title;
+        article.content = req.body.content;
+
+        article.save(function(err) {
+            if (err){
+                res.send(err);
+            }
+            res.json({ message: 'Article created!' });
+        });
 
     });
 
-    // delete a todo
+    // delete a Article
     app.delete('/api/articles/:article_id', function(req, res) {
-        Todo.remove({
+        Article.remove({
             _id : req.params.article_id
         }, function(err, article) {
             if (err)
                 res.send(err);
 
-            // get and return all the todos after you create another
-            Todo.find(function(err, article) {
+            // get and return all the Articles after you create another
+            Article.find(function(err, article) {
                 if (err)
                     res.send(err)
                 res.json(articles);
