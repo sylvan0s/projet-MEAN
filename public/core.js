@@ -1,5 +1,4 @@
 
-//var App = angular.module('blog',[]);
 var routerApp = angular.module('routerApp', ['ui.router']);
 
 routerApp.config(function($stateProvider, $urlRouterProvider) {
@@ -8,32 +7,34 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
     
     $stateProvider
         
-        // HOME STATES AND NESTED VIEWS ========================================
         .state('home', {
             url: '/home',
-            templateUrl: 'home.html'
+            templateUrl: 'home.html',
+             controller: 'ArticlesController'
         })
         
-        // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
         .state('login', {
-            // we'll get to this in a bit
+            
               url: '/login',
-            templateUrl: 'test1.html'       
-        });
-        
+            templateUrl: 'login.html'       
+        })
+
+         .state('article', {
+            url: '/article/:id',
+            templateUrl: 'article.html',
+            controller: 'affichearticle'
+         });
+     
 });
 
 
 routerApp.controller('ArticlesController', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http){
-console.log("controller")
-console.log($scope)
 
-
-
+  
   $scope.getarticles = function () {
   $http.get('/api/articles').
     success(function(data, status, headers, config) {
-              //console.log(data);
+              console.log(data);
               $scope.articles = data;
               $scope.lastArticle = $scope.articles[$scope.articles.length - 1];
                 });
@@ -56,16 +57,25 @@ console.log($scope)
     });
      $scope.getarticles();
   };
- 
-//article par id 
-  $scope.getArticle = function() {
-    $.get('/api/articles/:article_id').
-      success(function(data) {  
-      console.log(data);
-      });
-    };
+
+}]);
 
 
 
-   
+//afficher un article 
+routerApp.controller('affichearticle', ['$stateParams','$scope','$http', function($stateParams,$scope, $http){
+
+
+
+var id = $stateParams.id;
+console.log("ok")
+console.log(id);
+
+
+   $.get('/api/articles/'+id).
+          success(function(data, status, headers, config) {
+              console.log(data);
+              $scope.articles = data;
+              $scope.lastArticle = $scope.articles[$scope.articles.length - 1];
+            });
 }]);
