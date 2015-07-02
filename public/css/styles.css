@@ -1,0 +1,12 @@
+/* AFFICHAGE DES ARTICLES */
+.title-article { border-left: 1px solid #000; border-right: 1px solid #000; border-top: 1px solid #000; margin: 0 0 10px; width: 100%; background-color: #999999; border-radius: 10px 10px 0 0; }
+.content-article { border-left: 1px solid #000; border-right: 1px solid #000; border-bottom: 1px solid #000; border-radius: 0 0 10px 10px; margin-top: -10px; }
+h1 { margin: 0; color: #FFF; font-size: 24px; }
+.articles { width: 50%; margin: 0 auto 20px; }
+.inner { padding: 10px; }
+
+/* FORMULAIRE */
+#formulaire { text-align: center; }
+fieldset { width: 500px; margin: 0 auto 20px; }
+fieldset:last-child { margin-bottom: 0; }
+legend { text-align: left;}
