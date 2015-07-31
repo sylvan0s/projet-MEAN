@@ -16,7 +16,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         .state('login', {
             
               url: '/login',
-            templateUrl: 'login.html'       
+            templateUrl: 'test1.html'       
         })
 
          .state('article', {
@@ -28,11 +28,23 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
 });
 
 
-routerApp.controller('ArticlesController', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http){
+routerApp.controller('ArticlesController', ['$stateParams','$scope', '$rootScope', '$http', function($stateParams,$scope, $rootScope, $http){
+ 
+ var id = $stateParams.id;
+
+  $scope.getarticle = function() {
+   
+   $.get('/api/articles/'+id).
+          success(function(data, status, headers, config) {
+              console.log(data);
+              $scope.articles = data;
+              $scope.lastArticle = $scope.articles[$scope.articles.length - 1];
+            });
+  };
 
   
   $scope.getarticles = function () {
-  $http.get('/api/articles').
+  $.get('/api/articles').
     success(function(data, status, headers, config) {
               console.log(data);
               $scope.articles = data;
@@ -60,22 +72,3 @@ routerApp.controller('ArticlesController', ['$scope', '$rootScope', '$http', fun
 
 }]);
 
-
-
-//afficher un article 
-routerApp.controller('affichearticle', ['$stateParams','$scope','$http', function($stateParams,$scope, $http){
-
-
-
-var id = $stateParams.id;
-console.log("ok")
-console.log(id);
-
-
-   $.get('/api/articles/'+id).
-          success(function(data, status, headers, config) {
-              console.log(data);
-              $scope.articles = data;
-              $scope.lastArticle = $scope.articles[$scope.articles.length - 1];
-            });
-}]);
